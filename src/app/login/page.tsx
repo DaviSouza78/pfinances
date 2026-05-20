@@ -2,40 +2,40 @@
 
 import { signIn } from "next-auth/react";
 import { 
-  DollarSign, 
-  CalendarCheck, 
+  Wallet, 
   BookOpen, 
-  ShieldCheck,
+  PiggyBank, 
+  CreditCard,
   ArrowRight,
   Sparkles
 } from "lucide-react";
 
 const features = [
   {
-    icon: DollarSign,
-    title: "Finanças em centavos",
-    description: "Cálculos precisos sem erros de ponto flutuante",
+    icon: Wallet,
+    title: "Finanças precisas",
+    description: "Controle total de receitas e despesas com gestão de parcelas",
     color: "text-emerald-400",
     bg: "bg-emerald-500/10 border-emerald-500/20",
   },
   {
-    icon: CalendarCheck,
-    title: "Hábitos diários",
-    description: "Acompanhe sua rotina com animações suaves",
+    icon: BookOpen,
+    title: "Organização de Estudos",
+    description: "Sincronização automática com suas turmas e trabalhos",
     color: "text-blue-400",
     bg: "bg-blue-500/10 border-blue-500/20",
   },
   {
-    icon: BookOpen,
-    title: "Disciplinas de estudo",
-    description: "Organize tarefas por área de conhecimento",
+    icon: PiggyBank,
+    title: "Metas Inteligentes",
+    description: "Cofrinhos simulados com rendimento atrelado ao CDI",
     color: "text-violet-400",
     bg: "bg-violet-500/10 border-violet-500/20",
   },
   {
-    icon: ShieldCheck,
-    title: "Dados locais seguros",
-    description: "Tudo salvo no seu banco, com encriptação",
+    icon: CreditCard,
+    title: "Gestão de Assinaturas",
+    description: "Previsão automática de cobranças fixas mensais",
     color: "text-amber-400",
     bg: "bg-amber-500/10 border-amber-500/20",
   },
@@ -56,24 +56,24 @@ export default function LoginPage() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-white tracking-tight">PersonalHub</span>
+            <span className="text-xl font-bold text-white tracking-tight">pfinances</span>
           </div>
           <p className="text-[11px] text-slate-500 uppercase tracking-[0.25em] font-medium ml-[52px] -mt-1">
-            Plataforma pessoal
+            Finanças & Estudos
           </p>
         </div>
 
         <div className="relative z-10 flex-1 flex flex-col justify-center -mt-8">
           {/* Headline */}
           <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight mb-4">
-            Sua vida organizada,{" "}
+            Suas finanças e estudos,{" "}
             <span className="bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
               num só lugar
             </span>
           </h1>
           <p className="text-slate-400 text-base xl:text-lg leading-relaxed max-w-md mb-10">
-            Finanças pessoais com precisão de centavos, hábitos diários,
-            disciplinas de estudo e rotina — tudo no seu painel.
+            Controle de despesas com parcelas, metas de economia com cofrinhos, 
+            gestão de assinaturas e organização de tarefas escolares de forma simples e precisa.
           </p>
 
           {/* Feature Cards */}
@@ -100,7 +100,7 @@ export default function LoginPage() {
 
         {/* Footer */}
         <p className="relative z-10 text-xs text-slate-600">
-          © {new Date().getFullYear()} PersonalHub · Dados armazenados de forma segura no seu banco
+          © {new Date().getFullYear()} pfinances · Dados armazenados de forma segura no seu banco
         </p>
       </div>
 
@@ -111,7 +111,7 @@ export default function LoginPage() {
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center">
             <Sparkles className="w-4 h-4 text-white" />
           </div>
-          <span className="text-lg font-bold text-white">PersonalHub</span>
+          <span className="text-lg font-bold text-white">pfinances</span>
         </div>
 
         <div className="w-full max-w-sm space-y-8">
