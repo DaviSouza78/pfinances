@@ -127,7 +127,7 @@ export default function LoginPage() {
 
           {/* Google Sign In Button */}
           <button
-            onClick={() => signIn("google", { callbackUrl: "/" })}
+            onClick={() => signIn("google", { callbackUrl: "/" }, { prompt: "select_account" })}
             className="w-full flex items-center justify-between gap-3 px-6 py-4 rounded-xl bg-slate-800 border border-slate-700 hover:border-slate-500 hover:bg-slate-750 transition-all duration-200 group cursor-pointer"
           >
             <div className="flex items-center gap-3">
