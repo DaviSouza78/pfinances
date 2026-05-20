@@ -1,0 +1,191 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  
+  // Relacionamentos
+  transactions  Transaction[]
+  categories    Category[]
+  piggyBanks    PiggyBank[]
+  subscriptions Subscription[]
+  habits        Habit[]
+  subjects      Subject[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Category {
+  id          String        @id @default(cuid())
+  name        String
+  color       String?       // Cor para os gráficos (ex: #FF0000)
+  type        TransactionType // INCOME ou EXPENSE
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  transactions Transaction[]
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@unique([name, userId])
+}
+
+model Transaction {
+  id          String        @id @default(cuid())
+  description String
+  notes       String?
+  amount      Float         // Valores positivos
+  date        DateTime
+  type        TransactionType // INCOME ou EXPENSE
+  
+  categoryId  String?
+  category    Category?     @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+model PiggyBank {
+  id           String             @id @default(cuid())
+  name         String
+  targetAmount Float
+  savedAmount  Float              @default(0)
+  
+  userId       String
+  user         User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  deposits     PiggyBankDeposit[]
+
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+}
+
+model PiggyBankDeposit {
+  id           String    @id @default(cuid())
+  amount       Float
+  date         DateTime  @default(now())
+  
+  piggyBankId  String
+  piggyBank    PiggyBank @relation(fields: [piggyBankId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+enum SubscriptionFrequency {
+  MONTHLY
+  YEARLY
+}
+
+model Subscription {
+  id              String    @id @default(cuid())
+  name            String
+  website         String?
+  amount          Float
+  frequency       SubscriptionFrequency @default(MONTHLY)
+  nextBillingDate DateTime
+  active          Boolean   @default(true)
+  
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Habit {
+  id          String     @id @default(cuid())
+  name        String
+  description String?
+  
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  logs        HabitLog[]
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model HabitLog {
+  id          String    @id @default(cuid())
+  date        DateTime  // Data em que o hábito foi completado
+  
+  habitId     String
+  habit       Habit     @relation(fields: [habitId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime  @default(now())
+
+  @@unique([habitId, date]) // Impede duplicação no mesmo dia
+}
+
+model Subject {
+  id        String   @id @default(cuid())
+  name      String
+  color     String?
+  googleId  String?  @unique
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  tasks     Task[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Task {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  startDate   DateTime?
+  dueDate     DateTime
+  isCompleted Boolean   @default(false)
+  googleId    String?   @unique
+  
+  subjectId   String
+  subject     Subject   @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  attachments Attachment[]
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+enum AttachmentType {
+  FILE
+  LINK
+}
+
+model Attachment {
+  id        String         @id @default(cuid())
+  name      String
+  url       String
+  type      AttachmentType
+  
+  taskId    String
+  task      Task           @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
